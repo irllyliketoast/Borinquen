@@ -1,0 +1,267 @@
+// ==== Custom Cursor Tracking ====
+document.addEventListener("mousemove", e => {
+  const cursor = document.getElementById("customCursor");
+  if (cursor) {
+    cursor.style.left = `${e.clientX}px`;
+    cursor.style.top = `${e.clientY}px`;
+  }
+});
+
+// ===== GLOBAL ===== 
+let timelinePointSelected = false;
+
+// Wait until the entire HTML document is loaded before running script
+function toggleFootnotes() {
+  const wrapper = document.getElementById('footnotesWrapper');
+  const btn = document.getElementById('toggleSourcesBtn');
+
+  const isOpen = wrapper.classList.contains('open');
+
+  // Toggle the class
+  wrapper.classList.toggle('open');
+
+  // Toggle button text
+  btn.textContent = isOpen ? "View Sources" : "Hide Sources";
+
+  // Scroll smoothly when opening
+  if (!isOpen) {
+    setTimeout(() => {
+      wrapper.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 200); // wait a bit for animation
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+	// === ELEMENT REFERENCES ===
+	const timelinePoints = document.querySelectorAll('.timeline-point'); // All clickable timeline markers
+	const miniPage = document.getElementById('mini-page');              // Sliding panel for detailed info
+	const miniContent = document.getElementById('mini-content');        // Container for selected point content
+	const miniTitle = document.getElementById('mini-title');            // Title shown inside mini panel
+	const closeButton = document.querySelector('.close-btn');           // Button to close the mini panel
+	const timeline = document.getElementById('timeline');               // Vertical timeline container
+	const body = document.body;                                         // Entire page body (for color changes)
+	const video = document.getElementById('background-video');          // Background video element
+	const overlay = document.getElementById('color-overlay');           // Semi-transparent color overlay
+	const infoBox = document.getElementById("timeline-info-box");       // Hover tooltip for timeline points
+
+	// === CONTENT FOR TIMELINE POINTS ===
+	const content = {
+		point1: `<h3>The island Boriken or Borinquen, which means: "the great land of the valiant and noble Lord" or "land of the great lords", was home to the Taíno people long before the arrival of Europeans.</h3> <img src="photos/Taino.jpg" alt="Tainos" style="width:100%; max-width:700px; border-radius:10px; margin-bottom:10px;"> <p>The Taíno people, an Indigenous group belonging to the Arawakan linguistic family, left an enduring imprint on the Caribbean. Granberry and Vescelius (2004) identified two main varieties of the Taíno language: Classical Taíno, spoken in Puerto Rico and most of Hispaniola, and <em>Ciboney Taíno</em>, spoken in the Bahamas, most of Cuba, western Hispaniola, and Jamaica.<a href="#cite1" class="cite">1</a> Many of their words—such as <em>hammock, canoe, barbecue,</em> and <em>hurricane</em>—live on in Spanish and English.</p>  <img src="photos/TainoHomes.jpg" alt="Tainos" style="width:100%; max-width:700px; border-radius:10px; margin-bottom:10px;">  <p>Before colonization, the Taíno had a well-organized society with four social classes: the <em>cacique</em> (chief), the <em>nitaínos</em> (nobility and warriors), the <em>bohíques</em> (spiritual leaders and healers), and the <em>naborias</em> (laborers).<a href="#cite2" class="cite">2</a> Archaeological evidence shows that their settlements thrived for approximately 1,500 years through cooperative living and shared food systems.</p><p>They lived in <em>yucayeques</em> (villages) led by <em>caciques</em>—or <em>caica</em> if the leader was a woman—who were both political and spiritual leaders.<a href="#cite3" class="cite">3</a></p><p>Agriculture was at the heart of their culture. They grew cassava, corn, sweet potatoes, and yams using <em>conuco</em> farming techniques to preserve the soil. They fished, hunted, and crafted tools from stone and shell. Their reverence for nature was reflected in the worship of <em>zemís</em>—sacred spirits linked to natural elements and ancestors.<a href="#cite4" class="cite">4</a></p><img src="https://i.redd.it/wwy7h9glaj221.jpg" alt="Zemi Sculpture" style="width:100%; border-radius:10px; margin-bottom:10px;"><p>The most honored <em>zemís</em> included Atabey, goddess of fertility and the moon, and her son Yúcahu, guardian of cassava and peace. Guabancex, a fierce aspect of Atabey, governed storms with her twin sons Guataubá and Coatrisquie. In contrast, Iguanaboína, the goddess of calm, ruled alongside her sons Boinayel (rain) and Marohu (clear skies).</p><img src="https://i.pinimg.com/736x/eb/d5/70/ebd570d4eaca9fc0bbde5eba05c22509.jpg" alt="Taíno Culture" style="width:100%; border-radius:10px; margin-bottom:10px;"><p>The word <em>zemí</em> also described their physical representations—wooden carvings, stone sculptures, shell artifacts, and petroglyphs etched into cave walls and stream rocks. These were more than objects; they were portals to the spiritual world. Dance, music, and <em>areitos</em> served as rituals, storytelling tools, and cultural memory keepers.</p><p>Though the Spanish brought disease, forced labor, and cultural devastation, the Taíno legacy remains. Their names echo in places like <em>Caguas, Arecibo,</em> and <em>Guaynabo</em>. Their DNA survives in Caribbean bloodlines. Today, many seek to reconnect with their Taíno heritage—reviving a culture that colonization could not fully erase.</p>      <button id="toggleSourcesBtn" class="view-sources-btn" onclick="toggleFootnotes()">View Sources</button> <div class="footnotes-wrapper" id="footnotesWrapper"><div class="footnotes"><ol><li id="cite1"><a href="https://books.google.com/books?hl=en&lr=&id=Qy8LESKyJS0C&oi=fnd&pg=PR7" target="_blank" class="cite">Granberry & Vescelius (2004), <em>Languages of the Pre-Columbian Antilles</em></a></li><li id="cite2"><a href="https://books.google.com/books?hl=en&lr=&id=nkYAMSusYKkC&oi=fnd&pg=PR7" target="_blank" class="cite">Rouse, I. (1992), <em>The Tainos: Rise and Decline of the People Who Greeted Columbus</em></a></li><li id="cite3"><a href="https://anthrosource.onlinelibrary.wiley.com/doi/full/10.1111/jola.12139" target="_blank" class="cite">Lopez, A. (2017), <em>Taíno Identity in the Caribbean</em></a></li><li id="cite4"><a href="https://www.redalyc.org/pdf/377/37718114.pdf" target="_blank" class="cite">Rodríguez Ramos, R. (2005), <em>Reconsidering Taíno Social Complexity</em></a></li></ol></div></div>`,
+		point2: `<h3>Christopher Columbus' arrival in the Caribbean did not represent a <em>discovery</em> but rather the beginning of a brutal conquest that forever altered the history of the continent.</h3> <img src="photos/Landing.jpg" alt="Columbus Landing" style="width:100%; max-width:700px;border-radius:10px; margin-bottom:10px;"> <p>On April 17, 1492, the Catholic Monarchs of Spain—Ferdinand and Isabella—decided to back an ambitious plan by the Genoese navigator Christopher Columbus. After years of seeking support, including an unsuccessful proposal to King John II of Portugal, Columbus’s idea of reaching Asia by sailing west finally gained traction. In a moment of territorial expansion following the Reconquista, the Spanish court signed the Capitulations of Santa Fe. This agreement not only financed Columbus’s journey but also granted him the titles of viceroy and governor over any newly discovered lands, along with a share of 10% of the wealth extracted from them.<a href="#cite5" class="cite">1</a></p><p>On August 3, 1492, Columbus set sail from Palos, Spain, with a modest fleet of three ships—the Niña, the Pinta, and the Santa María. After a long and arduous voyage, land was sighted at dawn on October 12, when the expedition reached the Bahamas, an island that Columbus named San Salvador. Believing he had landed in the East Indies, he labeled the indigenous peoples “Indians.” Subsequent stops, including those in Cuba and Hispaniola, brought him into contact with the Taíno people, who initially welcomed the Europeans with hospitality by offering food, shelter, and even gold.<a href="#cite6" class="cite">2</a></p><h3>The Second Voyage: Colonization and the First Atrocities</h3><p>Following the perceived success of his first voyage and driven by his own ambitions, Columbus quickly secured royal approval for a second voyage—a stark departure from pure exploration toward overt colonization. Departing from Cádiz on September 25, 1493, he led an expanded fleet of 17 ships carrying nearly 1,500 men. This expedition not only introduced European livestock such as horses, sheep, and cattle to the Americas but also established a system of tribute. Columbus’s own writings reveal his ruthless economic intentions; he noted that the Taíno “must be good servants” and predicted that they could be easily converted to Christianity, signaling an early interest in their enslavement. Those who failed to deliver their periodic gold tribute, as later accounts detail, were subjected to severe punishments—including the cutting off of hands—to serve as brutal warnings.<a href="#cite6" class="cite">2</a></p><p>The Taíno people lived in a sophisticated, matrilineal society where descent and inheritance were traced through the mother. Women played crucial roles in governance, trade, and agriculture. Some even held positions as cacicas, or female leaders, wielding considerable influence within their communities. However, this autonomy was swiftly eroded as the Spanish imposed their patriarchal and exploitative systems.<a href="#cite7" class="cite">3</a></p><p>One of the most devastating policies imposed by the Spanish was the encomienda system, which forced the Taíno into grueling labor under European settlers. Villages were uprooted, cultural practices were suppressed, and traditional leadership structures were dismantled. This systematic oppression, coupled with rampant disease and violence, led to an unprecedented population decline.</p> <h3>Genocide and Massacres</h3><p>As Spanish demands for wealth intensified, resistance among the Taíno grew. However, these uprisings were met with brutal retaliation. One of the most infamous examples was the <em>Jaragua Massacre of 1503</em>, in which Spanish forces, under the orders of Governor Nicolás de Ovando, captured and burned alive several caciques, including the renowned leader Anacaona. According to Bartolomé de las Casas, Spanish soldiers also slaughtered civilians indiscriminately, even severing the legs of children as they tried to flee.<a href="#cite8" class="cite">4</a></p><img src="https://nativephilanthropy.candid.org/wp-content/uploads/sites/56/2019/07/1500s_Arawak_Resistance_mass_Suicides.jpg" alt="Theodor de Bry" style="width:100%; border-radius:10px; margin-bottom:10px;"><p>In the aftermath, Ovando continued his campaign of terror, hunting down and executing Taíno resistance leaders. Thousands were enslaved and forced into hard labor in gold mines, while others were shipped to Spain, where many perished due to inhumane conditions. Those who remained on the islands suffered under extreme brutality, with reports of systematic torture, sexual violence, and mass executions.</p><h3>Disease, Starvation, and Population Collapse</h3><p>While direct violence claimed countless Taíno lives, European diseases proved even more catastrophic. Lacking immunity to smallpox, measles, influenza, and typhus, the Taíno population was decimated within a few decades of European arrival. Historians estimate that between 80% and 90% of the Taíno perished due to disease alone.<a href="#cite6" class="cite">2</a></p><p>The imposition of Spanish agricultural practices also exacerbated famine. Traditional Taíno farming methods were replaced with European models, disrupting food supplies. In an act of resistance, some Taíno refused to plant or harvest crops, leading to mass starvation. By 1495, an estimated 50,000 Taíno had died of hunger.</p><h3>The Erasure of the Taíno: Paper Genocide</h3> <img src="photos/Killing.jpg" alt="Genocide" style="width:100%; max-width:700px;border-radius:10px; margin-bottom:10px;"> <p>Facing extermination, the Arawak organize and attempt to fight back against the Spaniards. Overwhelmed by Spanish military, the Arawak when captured are burned at the stake or hanged. Arawak begin committing mass suicides to avoid capture and subjugation, feeding cassava poison to their infants. In just two years, half of the 250,000 Indians on Haiti are dead through murder, mutilation, or suicide and by the early 1500s, the Taíno people were nearly extinct. On the island of Hispaniola, where initial population estimates ranged from 60,000 to 8 million in 1492, only around 200 Taíno were recorded by 1542. Similarly, in Puerto Rico, where the Taíno population once exceeded one million, census records from 1787 listed only 2,300 non-mixed Indigenous people. By the 1802 census, no Indigenous people were officially recorded on the island.<a href="#cite5" class="cite">1</a></p><p>Despite these statistics, some historians argue that <em>a form of paper genocide obscured the continued presence of Taíno descendants</em>. Spanish Catholic priests, responsible for birth registries, often classified people of Taíno descent as "mestizo" or "mulatto," effectively erasing their Indigenous identity. Enslaved Taíno were frequently reclassified as African after the Spanish monarchy abolished Indigenous slavery in 1533, allowing colonists to retain their forced laborers under a different designation.<a href="#cite9" class="cite">5</a></p><p>Furthermore, census records in Latin America often lacked an option for Indigenous identity, forcing Taíno descendants to identify as "white," "black," or "mixed-race." As a result, the historical record falsely portrayed the complete extinction of the Taíno, when in reality, their lineage persisted through generations of intermarriage and cultural blending.</p><h3>Legacy and Cultural Survival</h3><p>While the Spanish conquest led to the near-total destruction of Taíno society, traces of their culture remain embedded in the Caribbean. Taíno words endure in modern language and genetic studies have revealed Indigenous ancestry among contemporary Puerto Ricans, Dominicans, and Cubans, challenging the notion that the Taíno were completely wiped out.<a href="#cite10" class="cite">6</a></p><img src="photos/Remain.jpg" alt="Tainos Remain" style="width:100%; max-width:700px;border-radius:10px; margin-bottom:10px;"><p>Today, efforts to reclaim Taíno heritage continue, with Indigenous organizations advocating for recognition, cultural revitalization, and historical justice. The genocide of the Taíno serves as a stark reminder of the devastating impact of European colonization, as well as the resilience of Indigenous peoples in the face of systematic erasure and oppression.</p><h4>Christopher Columbus’s actions, along with those of his successors, laid the foundations of a colonial system based on violence, exploitation, and genocide. Modern historiography has begun to acknowledge these truths, dismantling the romanticized image of Columbus and revealing the magnitude of the crimes committed in the name of imperial expansion.</h4>       <button id="toggleSourcesBtn" class="view-sources-btn" onclick="toggleFootnotes()">View Sources</button><div class="footnotes-wrapper" id="footnotesWrapper"> <div class="footnotes"><ol><li id="cite5"><a href="https://www.jstor.org/stable/40891322" target="_blank" class="cite">Miller, T. (2009). *Caribbean Colonial Violence: 1492–1542*. JSTOR.</a></li><li id="cite6"><a href="https://justapedia.org/wiki/History_of_Puerto_Rico#Jones_Act_of_1917" target="_blank" class="cite">Justapedia. (n.d.). *History of Puerto Rico*.</a></li><li id="cite7"><a href="https://www.proquest.com/docview/303890011" target="_blank" class="cite">Rivera, L. (2000). *Matrilineal Societies and Resistance in the Caribbean*. ProQuest Dissertations.</a></li><li id="cite8"><a href="https://cdn.pruebat.org/recursos/recursos/Historia-Indias.pdf" target="_blank" class="cite">Las Casas, B. (1542). *Brevísima relación de la destrucción de las Indias*.</a></li><li id="cite9"><a href="https://www.proquest.com/docview/3094456768" target="_blank" class="cite">Jiménez, T. (2024). *Paper Genocide and the Disappearance of Identity*. ProQuest Journals.</a></li><li id="cite10"><a href="https://www.jstor.org/stable/40891322" target="_blank" class="cite">Ortiz, F. (2010). *Genetic Memory: Tracing the Taíno in the Modern Caribbean*. JSTOR.</a></li></ol></div></div>`,
+		point3: `<img src="photos/Invasion.png" alt="U.S. Annexing Puerto Rico" style="width:100%; max-width:700px; border-radius:10px; margin-bottom:10px;"><p>In 1898, Puerto Rico was taken by the United States without consultation or consent from the people living on the island. This marked the beginning of a complex and painful chapter in Puerto Rican history. The U.S. annexed Puerto Rico after the Spanish-American War, and the treaty that ended the war—the Treaty of Paris—was signed without any representation from Puerto Rico itself. This event deeply impacted the Puerto Rican identity, political autonomy, and the social fabric of the island.<a href="#cite11" class="cite">1</a></p><p>From a Puerto Rican perspective, this event was experienced as a violent rupture in their sovereignty and autonomy. Puerto Ricans had been under Spanish colonial rule for nearly 400 years, but the transition to U.S. control brought a new set of injustices. The U.S. didn’t ask the Puerto Rican people what they wanted for their future. The decision to incorporate Puerto Rico into the U.S. came from an external, imperialist perspective, and Puerto Ricans were forced into a new colonial relationship that didn’t reflect their will or needs.<a href="#cite12" class="cite">2</a></p><img src="photos/recolonization.png" alt="U.S. Annexing Puerto Rico" style="width:100%; max-width:700px; border-radius:10px; margin-bottom:10px;"><p>Immediately following the takeover, Puerto Ricans faced new forms of exploitation, economic disruption, and social upheaval. The U.S. military took control, and Puerto Ricans were subjected to foreign rule under the guise of protection and modernity. However, the reality was often far more brutal. Puerto Ricans were treated as second-class citizens, and their rights were stripped away. The U.S. imposed English as the official language, making it difficult for many Puerto Ricans to participate in the new political and economic system. This imposition of language and cultural assimilation was a form of erasure of the island's native Spanish-speaking identity, reflecting the broader tensions between preserving Puerto Rican culture and adjusting to the forces of Americanization.<a href="#cite13" class="cite">3</a></p><p>Economically, Puerto Rico became a colonial possession in the hands of U.S. corporations, which began to exploit its land and people for profit. Sugar, tobacco, and other crops became dominated by U.S. interests, leading to the displacement of Puerto Rican farmers and the concentration of wealth in the hands of the few. This exploitation wasn’t just economic—it also extended to the labor conditions that Puerto Ricans endured. The U.S. military and corporate entities demanded cheap labor, resulting in severe social and economic inequality.<a href="#cite11" class="cite">1</a></p><p>Militarily, Puerto Ricans suffered under the imposition of U.S. rule. The U.S. forces had a history of violence and subjugation against the island's inhabitants. The U.S. troops, many of whom were unfamiliar with Puerto Rican culture, saw the island and its people as inferior, often treating them with disdain. This sense of cultural superiority manifested in the forced changes to Puerto Rican education, government, and society, all in the name of Americanization. Puerto Ricans had no say in these matters, and the feeling of being treated as subjugated peoples deepened the sense of alienation.<a href="#cite14" class="cite">4</a></p><img src="photos/Invasion2.jpg" alt="U.S. Annexing Puerto Rico" style="width:100%; max-width:700px; border-radius:10px; margin-bottom:10px;"><p>For Puerto Ricans, this was not simply a change of rulers—it was a trauma, a loss of autonomy that would leave deep scars on the collective memory of the island. This experience of being annexed by a foreign power without consultation shaped Puerto Rican consciousness for generations, fostering a sense of betrayal and confusion about their place in the world. The island's people, once hopeful for self-determination, were forced into a new reality that blurred the lines between freedom and subjugation.</p><p>The U.S. government had justified its expansionist goals under the guise of spreading democracy and civilization. But for Puerto Ricans, the reality was far more oppressive. The war itself, the destruction, and the forced entry into American governance were seen as atrocities by many, as Puerto Ricans were left to navigate the traumatic shifts in their identity, culture, and society.<a href="#cite12" class="cite">2</a></p><p>This period laid the groundwork for the debates about Puerto Rico’s status that persist today, but it is crucial to recognize that at the time, Puerto Ricans were not asked about their future, nor were they given the chance to determine it. What followed was a century of struggle—struggles that continue today—over how to reconcile Puerto Rican identity with its colonial relationship to the United States.</p><p>The years between 1898 and 1917 were marked by significant upheaval, as Puerto Rico transitioned from Spanish colonial rule to American control. Throughout this period, the island’s people were subjected to foreign rule without representation or consent, which laid the foundation for the sense of alienation and marginalization that would continue to characterize Puerto Rico’s relationship with the United States long after 1917.<a href="#cite14" class="cite">4</a></p>  <button id="toggleSourcesBtn" class="view-sources-btn" onclick="toggleFootnotes()">View Sources</button><div class="footnotes-wrapper" id="footnotesWrapper"><div class="footnotes"><ol><li id="cite11"><a href="https://books.google.com/books?hl=en&lr=&id=MxvTDQAAQBAJ&oi=fnd&pg=PR11" target="_blank" class="cite">Denis, N. (2015). <em>The War Against All Puerto Ricans</em>. Nation Books.</a></li><li id="cite12"><a href="https://heinonline.org/HOL/Page?handle=hein.journals/indana94&div=4" target="_blank" class="cite">Torruella, J.R. (2019). <em>Ruling America's Colonies: The Insular Cases</em>. Indiana Law Journal, 94(1).</a></li><li id="cite13"><a href="https://journals.sagepub.com/doi/abs/10.1177/0094582X9802500502" target="_blank" class="cite">Maldonado, E. (1998). <em>Language and Colonialism: Puerto Rico Under U.S. Rule</em>. Latin American Perspectives, 25(5).</a></li><li id="cite14"><a href="https://books.google.com/books?hl=en&lr=&id=-f249l8IfYUC&oi=fnd&pg=PP13" target="_blank" class="cite">Duany, J. (2002). <em>The Puerto Rican Nation on the Move</em>. UNC Press.</a></li></ol></div></div>`,
+		point4: `<img src="https://weareili.org/wp-content/uploads/2023/07/NYT%20Headline%20March%203%201917-1024x765.jpeg" alt="Jones Act" style="width:100%; max-width:700px; border-radius:10px; margin-bottom:10px;"><p>In 1917, the U.S. government granted Puerto Ricans U.S. citizenship under the Jones Act. However, this citizenship was a limited form of inclusion that did not grant full political or social rights. Despite being citizens, Puerto Ricans were denied the ability to vote in federal elections and were excluded from various key rights, such as full participation in the electoral process. This designation marked the continuation of Puerto Rico's status as a colonial territory, highlighting its second-class citizenship within the broader American system.<a href="#cite15" class="cite">1</a></p><h3>The Jones Act and Its Implications</h3><p>Puerto Rico had been under U.S. control since 1898, following the Spanish-American War. Despite the acquisition of the island, Puerto Ricans had no formal political rights, and the island was governed by a military regime. The Jones Act, officially known as the <em>Jones-Shafroth Act</em>, was signed into law by President Woodrow Wilson in 1917, conferring U.S. citizenship to Puerto Ricans.<a href="#cite16" class="cite">2</a> However, the law did not grant them the right to vote for U.S. president, nor did it allow for meaningful representation in Congress. Puerto Rico was effectively established as a permanent U.S. territory with limited rights.</p><p>Though hailed by some at the time as a step toward integration, others saw it as a calculated move: by granting citizenship, the U.S. could conscript Puerto Ricans into World War I without granting them the democratic rights typically afforded to citizens.<a href="#cite17" class="cite">3</a></p> <h3>Political and Economic Control Remains with the U.S.</h3><p>While Puerto Ricans were granted citizenship, the U.S. government continued to control the island's political and economic affairs. Puerto Rico’s local government was reshaped under the Jones Act, but it remained under the supervision of a U.S.-appointed governor and unelected federal oversight boards.<a href="#cite18" class="cite">4</a></p><img src="https://i.pinimg.com/736x/73/14/4e/73144e474e24cef959f4d7242dba8e43.jpg" alt="Rebel" style="width:100%; max-width:700px; border-radius:10px; margin-bottom:10px;"><p>The local legislative body was limited in its ability to make autonomous decisions, with the U.S. Congress holding final authority over the island’s laws and policies. Puerto Rico’s legal status meant it had no power to negotiate treaties, no electoral votes, and no true sovereignty—despite its people being nominally American citizens.<a href="#cite19" class="cite">5</a></p><h3>The Struggle for Equal Rights</h3><p>The limited nature of Puerto Rican citizenship sparked ongoing debates about the island’s future. While some Puerto Ricans welcomed the citizenship, others saw it as insufficient—little more than a legal tool of imperialism. The struggle for full recognition and equal rights intensified in the following decades, leading to rising political movements for statehood, independence, or enhanced autonomy. Despite Puerto Ricans' contributions to the U.S. military, particularly during World War I, their lack of voting representation continued to reflect their disenfranchised status.<a href="#cite17" class="cite">3</a></p><h3>Continued Colonial Legacy</h3><p>More than a century after the Jones Act, Puerto Rico remains entangled in a colonial relationship with the United States. Puerto Ricans now vote in <em>local</em> elections, but are still barred from voting for president or electing voting members to Congress. Meanwhile, U.S. federal laws continue to affect life on the island—from commerce to environmental policy—without input from Puerto Rican voters.<a href="#cite20" class="cite">6</a></p><p>The Jones Act also imposed restrictions on maritime trade, requiring that goods shipped between U.S. ports—including Puerto Rico—travel on U.S.-built, U.S.-flagged, and U.S.-crewed ships. This policy significantly increases the cost of living on the island, affecting food, medicine, and energy prices, while benefiting U.S. shipping monopolies.<a href="#cite21" class="cite">7</a></p><h4>The Jones Act stands as a reminder of the ongoing colonial relationship between the United States and Puerto Rico, one marked by the limitations placed on the island’s political autonomy and its residents’ full citizenship rights.</h4><button id="toggleSourcesBtn" class="view-sources-btn" onclick="toggleFootnotes()">View Sources</button><div class="footnotes-wrapper" id="footnotesWrapper"><div class="footnotes"><ol><li id="cite15"><a href="https://heinonline.org/HOL/Page?handle=hein.journals/loymarlj17&div=7" target="_blank" class="cite">Torruella, J. R. (2003). <em>The Insular Cases: The Establishment of a Colonial Regime Over the Puerto Rican People</em>. Loyola Maritime Law Journal, 17(1).</a></li><li id="cite16"><a href="https://ecommons.luc.edu/cgi/viewcontent.cgi?article=2437&context=luc_diss" target="_blank" class="cite">Rivera, A. (2018). <em>Americanization and Citizenship: Puerto Rico and the Jones Act</em>. Loyola University Chicago Dissertations.</a></li><li id="cite17"><a href="https://www.russellhillberry.net/uploads/6/4/1/0/64104535/jonesactdec14.pdf" target="_blank" class="cite">Hillberry, R. (2014). <em>The Consequences of the Jones Act</em>.</a></li><li id="cite18"><a href="https://academicworks.cuny.edu/gc_etds/3344/" target="_blank" class="cite">Marrero, E. (2022). <em>Territorial Disenfranchisement and Colonial Rule in Puerto Rico</em>. CUNY Graduate Center.</a></li><li id="cite19"><a href="https://ecommons.luc.edu/cgi/viewcontent.cgi?article=2437&context=luc_diss" target="_blank" class="cite">Rivera, A. (2018). <em>Americanization and Citizenship: Puerto Rico and the Jones Act</em>.</a></li><li id="cite20"><a href="https://heinonline.org/HOL/Page?handle=hein.journals/loymarlj17&div=7" target="_blank" class="cite">Torruella, J. R. (2003). <em>The Insular Cases</em>.</a></li><li id="cite21"><a href="https://www.cato.org/research-briefs-economic-policy/effect-jones-act-puerto-rico" target="_blank" class="cite">Cato Institute. (2020). <em>The Effect of the Jones Act on Puerto Rico</em>.</a></li></ol></div> </div>`,
+		point5: `<img src="https://i.pinimg.com/736x/fd/a5/73/fda5735a6ef7fd072ebe2f8f02d251a4.jpg" alt="Puerto Rican Flag" style="width:100%; border-radius:10px; margin-bottom:10px;"> <p>The period between the 1930s and 1950s in Puerto Rico was marked by intense political repression, economic hardship, and social upheaval. This era was defined by the colonial rule of the United States, the struggle for independence, and the violent suppression of nationalist movements. It also witnessed significant cultural and psychological impacts on the Puerto Rican people, as seen in works like <em>The Puerto Rican Syndrome</em> by Patricia Gherovici.<a href="#cite22" class="cite">1</a></p> <h3>Legacy of Aguedo Mojica: Philosopher, Lawyer, and My Great-Grandfather</h3><img src="https://humacao385596201.wordpress.com/wp-content/uploads/2020/07/aguedo.jpg?w=347" alt="Statue of Aguedo Mojica in Humacao" style="width:100%; border-radius:10px; margin-bottom:10px;"><p>Amidst the turmoil of colonial repression and nationalist resistance, few intellectual figures emerged with the clarity and conviction of Aguedo Mojica. Born in 1908 in Humacao, Puerto Rico, Mojica was a philosopher, lawyer, professor, and a prominent civic voice during the mid-20th century.<a href="#cite23" class="cite">2</a> He pursued his legal studies in Madrid and earned a doctorate in philosophy at the University of Paris, a rare accomplishment for a Puerto Rican scholar of his time.</p><p>Aguedo Mojica authored several philosophical works, advocated for human rights, and played a vital role in elevating the study of the humanities at the University of Puerto Rico.<a href="#cite24" class="cite">3</a> His teachings emphasized moral integrity, intellectual rigor, and cultural awareness during an era when political dissent was heavily surveilled and censored. A monument in his honor now stands in the heart of Humacao, a tribute to his contributions to Puerto Rican thought and public service.</p><p>As my great-grandfather, Aguedo Mojica’s legacy is not just historical—it is familial and formative. His life and values serve as a reminder of the power of education and philosophy in the face of colonial control and cultural erasure.</p><h3>The Rise of Nationalism and U.S. Control</h3> <p>During the early 20th century, Puerto Rico remained under U.S. control following the Spanish-American War of 1898. By the 1930s, nationalist sentiments had grown sharply in response to widespread economic disparity, political subjugation, and U.S. imperial policies.<a href="#cite25" class="cite">4</a></p> <p>Pedro Albizu Campos, the leader of the Puerto Rican Nationalist Party, emerged as a key figure advocating for independence. He fiercely opposed U.S. governance, arguing that Puerto Ricans were treated as second-class citizens while their economic resources were exploited. Under Albizu Campos’ leadership, nationalist movements gained traction, but the U.S. government and local authorities responded with harsh repression.<a href="#cite26" class="cite">5</a></p><h3>The 1935 Río Piedras Massacre</h3> <p>One of the first major incidents of state violence occurred in 1935 when police forces under the command of U.S.-appointed Governor Blanton Winship killed four nationalist students at the University of Puerto Rico in Río Piedras.<a href="#cite27" class="cite">6</a> This event, known as the Río Piedras Massacre, set the stage for an era of increased state surveillance and crackdowns on nationalist activities.</p><h3>The 1937 Ponce Massacre</h3><p>The most infamous act of repression during this period took place on March 21, 1937, in Ponce. The Nationalist Party organized a peaceful march to commemorate the abolition of slavery and protest the imprisonment of their leaders. However, police forces, following direct orders from Governor Winship, opened fire on unarmed protesters, killing 19 people and injuring over 200.<a href="#cite28" class="cite">7</a> This brutal event, later known as the Ponce Massacre, was condemned internationally and remains a symbol of colonial oppression in Puerto Rico.</p> <h3>Mass Arrests and Suppression of Nationalist Movements</h3><p>Following the massacres, the U.S. and Puerto Rican governments intensified their crackdown on nationalist groups. The <em>Ley de la Mordaza</em> (Gag Law), enacted in 1948 under Governor Jesús T. Piñero, made it illegal to advocate for independence or engage in activities associated with the nationalist movement.<a href="#cite29" class="cite">8</a> Singing nationalist songs, displaying flags, or organizing protests could lead to arrest and imprisonment.</p><p>Although displaying the Puerto Rican flag was not directly outlawed, it was closely monitored, and many were persecuted simply for showing nationalist symbols, which authorities equated with rebellion.<a href="#cite29" class="cite">8</a></p><h3>The 1950 Jayuya and Utuado Uprisings</h3><p>Despite the repression, nationalist resistance continued. In 1950, the Puerto Rican Nationalist Party staged uprisings, the most significant occurring in Jayuya and Utuado. The Jayuya Uprising, led by Blanca Canales, resulted in nationalists briefly declaring Puerto Rico’s independence. In response, the U.S. government deployed bombers and ground troops to suppress the rebellion.<a href="#cite26" class="cite">5</a></p> <p>The Utuado Uprising was similarly met with extreme force, culminating in the execution of prisoners in what became known as the Utuado Massacre.<a href="#cite30" class="cite">9</a> These events underscored the violence the U.S. government was willing to employ to maintain control over the island.</p><h3>The 1952 Establishment of the Estado Libre Asociado</h3><p>In 1952, Puerto Rico’s status shifted with the creation of the Estado Libre Asociado (ELA), or Commonwealth. Approved in a plebiscite, this status granted a degree of local governance while maintaining U.S. territorial control.<a href="#cite31" class="cite">10</a> Many nationalists viewed it as a strategic move to weaken the independence movement without ending colonialism.</p> <h3>The 1954 Attack on the U.S. Congress</h3><p>In 1954, four Puerto Rican nationalists, led by Lolita Lebrón, attacked the U.S. Congress, injuring five representatives. Though no one was killed, the act was a desperate cry against colonialism, resulting in their long-term imprisonment.<a href="#cite31" class="cite">10</a></p><h3>Psychological and Cultural Impact: <em>The Puerto Rican Syndrome</em></h3><p>This period of repression had lasting psychological effects. <em>The Puerto Rican Syndrome</em> by Patricia Gherovici examines how these historical traumas contributed to psychosomatic illnesses, particularly among Puerto Rican soldiers who fought in Korea.<a href="#cite22" class="cite">1</a> Gherovici argues that colonial oppression, migration, and displacement deeply shaped Puerto Rican identity and mental health.</p> <h3>The 1930s–1950s was marked by violent state repression, nationalist resistance, and significant social and psychological ramifications. The suppression of nationalist movements and the enforcement of colonial policies reinforced Puerto Rico’s status as a U.S. territory while shaping the collective identity and struggles of its people.</h3>    <button id="toggleSourcesBtn" class="view-sources-btn" onclick="toggleFootnotes()">View Sources</button> <div class="footnotes-wrapper" id="footnotesWrapper"><div class="footnotes"> <ol> <li id="cite22"><a href="https://books.google.com/books?hl=en&lr=&id=RVcEAQBAJ&oi=fnd&pg=PR11" target="_blank" class="cite">Gherovici, P. (2003). <em>The Puerto Rican Syndrome</em>. Other Press.</a></li> <li id="cite23"><a href="https://humacao385596201.wordpress.com/monumento-a-aguedo-mojica/" target="_blank" class="cite">Humacao Historical Society. (2021). <em>Monumento a Aguedo Mojica</em>.</a></li><li id="cite24"><a href="https://www.periodicolaperla.com/perspectiva/aguedo-mojica-uno-de-los-mas-sabios-renacentistas-puertorriquenos/" target="_blank" class="cite">Periódico La Perla. (2021). <em>Aguedo Mojica: Un sabio puertorriqueño</em>.</a></li><li id="cite25"><a href="https://heinonline.org/HOL/Page?handle=hein.journals/chiclat7&div=8" target="_blank" class="cite">Chicago Latin American Law Review. (1986). <em>Puerto Rico’s Colonial Dilemma</em>.</a></li><li id="cite26"><a href="https://www.tandfonline.com/doi/full/10.1080/10714839.2017.1373960" target="_blank" class="cite">Vázquez, S. (2017). <em>Nationalism and Resistance in Puerto Rico</em>.</a></li><li id="cite27"><a href="https://books.google.com/books?hl=en&lr=&id=zDyFDwAAQBAJ&oi=fnd&pg=PR11" target="_blank" class="cite">Torres, A. (2017). <em>The Río Piedras Massacre and Puerto Rican Nationalism</em>.</a></li> <li id="cite28"><a href="https://books.google.com/books?hl=en&lr=&id=MxvTDQAAQBAJ&oi=fnd&pg=PR11" target="_blank" class="cite">Denis, N. (2015). <em>The War Against All Puerto Ricans</em>. Nation Books.</a></li><li id="cite29"><a href="https://books.google.com/books?hl=en&lr=&id=BFULCz8rkbUC&oi=fnd&pg=PA156" target="_blank" class="cite">Dávila, A. (1997). <em>The Gag Law and Political Repression</em>.</a></li><li id="cite30"><a href="https://books.google.com/books?hl=en&lr=&id=te1cUiXUweYC&oi=fnd&pg=PA233" target="_blank" class="cite">Figueroa, L. (2006). <em>The Nationalist Revolts of 1950</em>.</a></li><li id="cite31"><a href="https://www.degruyterbrill.com/document/doi/10.1515/9780791483381-008/pdf" target="_blank" class="cite">DeGryuter-Brill. (2006). <em>Colonialism and Resistance in Puerto Rico</em>.</a></li></ol> </div> </div>`,
+		point6: "<p>Mass sterilizations and military abuse of land.</p>",
+		point7: "<h2>U.S. policies worsen Puerto Rico’s economy.</h2>",
+		point8: "<p>U.S. aid delays cause thousands of deaths.</p>",
+		point9: "<p>Locals are displaced as wealthy investors take over.</p>"
+	};
+
+	// === CORRESPONDING VIDEOS FOR EACH TIMELINE POINT ===
+	const videos = {
+		point1: 'videos/PreColonialTimeline.mp4',
+		point2: 'videos/1493Timeline.mp4',
+		point3: 'videos/1898Timeline.mp4',
+		point4: 'videos/1917Timeline.mp4',
+		point5: 'videos/1930Timeline.mp4',
+		point6: 'videos/sterilization.mp4',
+		point7: 'videos/2000Timeline.mp4',
+		point8: 'videos/2017Timeline.mp4',
+		point9: 'videos/2020Timeline.mp4'
+	};
+
+	// === INTERACTIONS FOR EACH TIMELINE POINT ===
+	timelinePoints.forEach(point => {
+		// Show info box on hover (unless already selected)
+		point.addEventListener("mouseenter", function () {
+			if (!this.classList.contains("selected")) {
+				const title = this.getAttribute("data-title");
+				infoBox.textContent = title;
+				infoBox.style.display = "block";
+				updateInfoBoxPosition(this);
+
+				if (!timelinePointSelected) {
+					const pointId = this.id;
+					const newSrc = videos[pointId];
+					const newColor = adjustColor(this.style.getPropertyValue('--color'));
+
+					if (newSrc && video) {
+						video.style.opacity = 0;
+						setTimeout(() => {
+							video.src = newSrc;
+							video.load();
+							video.oncanplay = () => {
+								video.play().catch(err => console.error("Hover video play error:", err));
+								video.style.opacity = 1;
+							};
+						}, 50);
+					}
+
+					if (overlay) {
+						overlay.style.background = newColor;
+					}
+
+					body.style.background = newColor;
+				}
+			}
+		});
+
+		// Hide info box when no longer hovering
+		point.addEventListener("mouseleave", function () {
+			infoBox.style.display = "none";
+
+			if (!timelinePointSelected) {
+				if (video) {
+					video.src = 'videos/default.mp4';
+					video.load();
+					video.play();
+				}
+
+				if (overlay) {
+					overlay.style.background = "rgba(244, 244, 244, 0.5)";
+				}
+
+				body.style.background = "#f4f4f4";
+			}
+		});
+
+		// Click event to expand and show content
+		point.addEventListener('click', function () {
+			// Remove previously selected state from all points
+			timelinePoints.forEach(p => p.classList.remove('selected'));
+			this.classList.add('selected');
+			timelinePointSelected = true;
+			this.scrollIntoView({
+			  behavior: 'smooth',
+			  block: 'center'
+			});
+
+
+			// Hide the hover info box immediately
+			infoBox.style.display = "none";
+
+			// Set mini panel title to match clicked point
+			const title = this.getAttribute('data-title');
+			if (miniTitle) miniTitle.textContent = title;
+
+			// Get the ID of the clicked point to load correct content and video
+			const pointId = this.id;
+			miniContent.innerHTML = content[pointId] || "<p>No content available</p>";
+			miniContent.scrollTop = 0;
+
+			// Set new video source if defined
+			const newSrc = videos[pointId];
+
+			// Dynamically compute overlay color from point's CSS variable
+			const newColor = adjustColor(this.style.getPropertyValue('--color'));
+
+			// Slide in the mini content panel and shift the timeline
+			miniPage.classList.add('active');
+			timeline.classList.add('shift-left');
+			timeline.classList.add('expanded');
+
+			// If the video exists, fade out, swap source, fade back in
+			if (newSrc && video) {
+			  video.style.opacity = 0; // start faded out
+
+			  // Wait a tick before swapping the video
+			  setTimeout(() => {
+				video.src = newSrc;
+				video.load();
+
+				video.oncanplay = () => {
+				  video.play().catch(err => console.error("Video play error:", err));
+				  video.style.opacity = 1; // fade back in only after it can play
+				};
+			  }, 50);
+			}
+
+			// Update the overlay background color
+			if (overlay) {
+				overlay.style.background = newColor;
+			}
+
+			// Also set body background color for consistency
+			body.style.background = newColor;
+
+			// Remove focus from the clicked point
+			document.activeElement.blur();
+		});
+	});
+
+	// === CLOSE BUTTON FUNCTIONALITY ===
+	if (closeButton) {
+		closeButton.addEventListener('click', closeMiniPage);
+	}
+
+	// Close mini panel when pressing ESC key
+	document.addEventListener('keydown', (event) => {
+		if (event.key === "Escape") {
+			closeMiniPage();
+		}
+	});
+
+	// Close mini panel when clicking anywhere outside it (but not on a point)
+	document.addEventListener('click', (event) => {
+		if (!miniPage.contains(event.target) && !event.target.classList.contains('timeline-point')) {
+			closeMiniPage();
+		}
+	});
+
+	// === FUNCTION: Close the sliding mini panel ===
+	function closeMiniPage() {
+		miniPage.classList.remove('active');
+		timeline.classList.remove('shift-left');
+		timeline.classList.remove('expanded');
+		timelinePointSelected = false;
+
+		// Reset selected points
+		timelinePoints.forEach(p => p.classList.remove('selected'));
+
+		// Reset overlay color
+		if (overlay) {
+			overlay.style.background = "rgba(244, 244, 244, 0.5)";
+		}
+
+		// Reset the background video to default
+		if (video) {
+			video.src = 'videos/default.mp4';
+			video.load();
+			video.play();
+		}
+
+		// Reset page background
+		body.style.background = "#f4f4f4";
+	}
+
+	// === FUNCTION: Dynamically position the info box next to hovered point ===
+	function updateInfoBoxPosition(point) {
+		let rect = point.getBoundingClientRect(); // Get position of the element
+		let boxWidth = infoBox.offsetWidth || 150;
+
+		// Position the box to the left and vertically centered on the point
+		let leftPosition = rect.left + window.scrollX - boxWidth - 20;
+		let topPosition = rect.top + window.scrollY + rect.height / 2 - infoBox.offsetHeight / 2;
+
+		infoBox.style.left = `${leftPosition}px`;
+		infoBox.style.top = `${topPosition}px`;
+	}
+
+	// === FUNCTION: Lighten a hex color and return as RGBA ===
+	function adjustColor(hex) {
+		let r = parseInt(hex.substring(1, 3), 16);
+		let g = parseInt(hex.substring(3, 5), 16);
+		let b = parseInt(hex.substring(5, 7), 16);
+
+		// Lighten the color toward white by 30%
+		r += (255 - r) * 0.3;
+		g += (255 - g) * 0.3;
+		b += (255 - b) * 0.3;
+
+		// Return RGBA with 0.5 transparency
+		return `rgba(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)}, 0.5)`;
+	}
+});

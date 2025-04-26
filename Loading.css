@@ -1,0 +1,105 @@
+/* ===== Global Styles ===== */
+* {
+  /* Hides the default cursor and forces use of the custom one */
+  cursor: none !important;
+  /* Applies the imported font to all body text */
+  font-family: 'Playfair Display', serif;
+}
+
+/* ===== Intro Loading Screen ===== */
+.intro-screen {
+  position: fixed; /* Stays in place over everything */
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(150, 173, 120); /* Muted green tone */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Sits above all other content */
+  overflow: hidden;
+  transition: opacity 1s ease; /* Smooth fade out */
+}
+
+#squiggle-canvas {
+  position: absolute; /* Full-screen canvas for animation */
+  width: 100%;
+  height: 100%;
+}
+
+.enter-circle {
+  background-color: #fdf5e6; /* Soft cream background */
+  color: #5f8133; /* Olive green text */
+  font-family: 'Sanchez', serif;
+  font-size: 1.5rem;
+  border-radius: 50%; /* Makes it a perfect circle */
+  width: 0px; /* Starts collapsed */
+  height: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transform: scale(1); /* Initial scale for animation */
+  opacity: 0; /* Initially hidden */
+  z-index: 2;
+  box-shadow: 0 0 20px rgba(255,255,255,0.3); /* Glowing ring effect */
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  transition:
+    width 1s ease,
+    height 1s ease,
+    opacity 1s ease,
+    transform 0.4s ease; /* Animates circle size, opacity, and hover effect */
+}
+
+/* When loaded, show the circle */
+.enter-circle.show-size {
+  width: 300px;
+  height: 300px;
+}
+
+/* When loaded, fade in the text */
+.enter-circle.show-text {
+  opacity: 1;
+}
+
+/* Hover animation to enlarge circle */
+.enter-circle:hover {
+  transform: scale(2.0);
+}
+
+/* Expands circle into full screen */
+.enter-circle.expand-full {
+  transition: all 1s ease;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0; /* Turns into square */
+  font-size: 2rem;
+}
+
+/* Utility class to fully hide any element */
+.hidden {
+  display: none;
+}
+
+/* ===== Custom Cursor ===== */
+#customCursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  background-image: url('custom-cursor.png'); /* Custom image */
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none; /* So it doesn’t interfere with clicking */
+  z-index: 10000; /* Above all other UI */
+  transform: translate(-50%, -50%); /* Centers image on mouse */
+  transition: transform 0.2s ease;
+}
+
+/* Optional hover effect that enlarges cursor near enter-circle */
+.enter-circle:hover ~ #customCursor {
+  transform: scale(2);
+}

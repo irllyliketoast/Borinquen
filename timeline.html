@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!-- Declares the document is using HTML5 -->
+<html lang="en">
+<head>
+  <!-- Sets character encoding for the document -->
+  <meta charset="UTF-8">
+  
+  <!-- Ensures the page scales correctly on different devices -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Title that appears in the browser tab -->
+  <title>Interactive Timeline</title>
+
+  <!-- Preloads font resources from Google Fonts for better performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Link to external CSS file that styles the timeline -->
+  <link rel="stylesheet" href="timelineStyles.css">
+
+  <!-- Link to external JavaScript file that controls timeline interactions -->
+  <script src="timelineScript.js"></script>
+
+  <!-- Imports the Playfair Display font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Optional decorative or functional cursor element -->
+  <div id="customCursor"></div>
+
+  <!-- Hidden info box that appears when hovering over a timeline point -->
+  <div id="timeline-info-box" class="hidden"></div>
+
+  <!-- Timeline container holding all the key historical points -->
+  <div class="timeline" id="timeline">
+
+    <!-- Each point represents a significant moment in Puerto Rican history -->
+    <!-- Custom color is stored using a CSS variable (--color) for dynamic styling -->
+    <div class="timeline-point" data-title="Pre-Colonial Puerto Rico" style="--color:#1B5E20" id="point1"></div>
+    <div class="timeline-point" data-title="1492-1599 - Spanish Colonization" style="--color:#6D8C42" id="point2"></div>
+    <div class="timeline-point" data-title="1898-The United States Invades" style="--color:#E63946" id="point3"></div>
+    <div class="timeline-point" data-title="1917 - Second-Class Citizenship" style="--color:#FF6B6B" id="point4"></div>
+    <div class="timeline-point" data-title="1930s-1950s - Political Repression" style="--color:#F89D2A" id="point5"></div>
+    <div class="timeline-point" data-title="1950s-1970s - Sterilization & Military Exploitation" style="--color:#E5C8A5" id="point6"></div> 
+    <div class="timeline-point" data-title="2000s - Economic Crisis & Colonial Policies" style="--color:#7D3C98" id="point7"></div> 
+    <div class="timeline-point" data-title="2017 - Hurricane María & Neglect" style="--color:#2C3E50" id="point8"></div>
+    <div class="timeline-point" data-title="2020s - Gentrification & Resistance" style="--color:#0093d8" id="point9"></div> 
+  </div>
+
+  <!-- Panel that shows when a timeline point is clicked -->
+  <div id="mini-page">
+    <!-- Button to close the content panel -->
+    <button class="close-btn">&times;</button>
+    
+    <!-- Title header inside the panel (updates based on selected point) -->
+    <div class="mini-header">
+      <h2 id="mini-title">Title</h2>
+    </div>
+
+    <!-- Content about the selected event appears here -->
+    <div id="mini-content"></div>
+  </div>
+
+  <!-- Background video that changes depending on the timeline point selected -->
+  <video id="background-video" autoplay muted loop playsinline></video>
+  
+  <!-- debug making sure the video played on browser -->
+  <!-- <video src="videos/2020Timeline.mp4" autoplay muted loop playsinline style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:10;"></video> -->
+
+
+  <!-- Overlay that changes color dynamically with each selected event -->
+  <div id="color-overlay"></div>
+  
+  <!-- Exit Button in Bottom Left -->
+  <button id="back-button" class="view-sources-btn" onclick="window.location.href='index.html'">Back to Borinquén</button>
+
+  </body>
+</html>

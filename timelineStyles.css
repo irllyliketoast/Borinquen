@@ -1,0 +1,293 @@
+/* === Reset & Base Styles === */
+* {
+  margin: 0;
+  padding: 0;
+  cursor: none !important;
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+  font-family: "Playfair Display", serif; /* Elegant, readable font */
+}
+
+body {
+  display: flex; /* Allows centering of content */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full screen height */
+  position: relative;
+  overflow: auto;
+  transition: background 0.4s ease-in-out; /* Smooth background color changes */
+}
+
+/* ===== Custom Cursor ===== */
+#customCursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  background-image: url('custom-cursor.png'); /* Custom image */
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none; /* So it doesn’t interfere with clicking */
+  z-index: 10000; /* Above all other UI */
+  transform: translate(-50%, -50%); /* Centers image on mouse */
+  transition: transform 0.2s ease;
+}
+
+/* ===== Citation ===== */
+.cite {
+  color: #5f8133;
+  text-decoration: none !important; /* Remove underline */
+  font-size: 0.8em;
+  vertical-align: super;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.cite:hover {
+  color: #7ba754;
+}
+
+/* Button to toggle footnotes */
+.view-sources-btn {
+  background: #5f8133;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Playfair Display", serif;
+  font-size: 14px;
+  margin-top: 20px;
+  transition: background 0.3s ease;
+}
+
+.view-sources-btn:hover {
+  background: #7ba754;
+}
+
+/* Animated footnotes section */
+.footnotes-wrapper {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: all 0.6s ease;
+}
+
+.footnotes-wrapper.open {
+  max-height: 500px; /* Adjust if your notes get longer */
+  opacity: 1;
+}
+
+.footnotes {
+  font-size: 0.9em;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+  color: #444;
+}
+
+.footnotes li {
+  margin-bottom: 6px;
+}
+
+/* === Timeline Vertical Bar === */
+.timeline {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 80vh;
+  background: #444;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  transition: all 0.5s ease-in-out;
+  z-index: 1;
+}
+
+/* Moves timeline left and expands when content panel is open */
+.timeline.shift-left {
+  transform: translateX(-250px) scale(1.05);
+}
+
+.timeline.expanded {
+  position: relative;
+  top: auto;
+  left: auto;
+  height: 95vh; /* ✨ More subtle expansion */
+  justify-content: space-evenly;
+  transition: all 0.5s ease-in-out;
+}
+
+
+/* === Timeline Points (Nodes) === */
+.timeline-point {
+  position: relative;
+  width: 35px;
+  height: 35px;
+  background: white;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Soft glow */
+  border-radius: 50%; /* Circular */
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+}
+
+/* Hover effect for timeline points */
+.timeline-point:hover {
+  transform: scale(1.5);
+  background: var(--color); /* Uses custom color set via inline style */
+  color: white;
+  box-shadow: 0 0 15px var(--color);
+}
+
+/* Style when a point is selected (clicked) */
+.timeline-point.selected {
+  transform: scale(2.5);
+  background: var(--color);
+  color: white;
+  box-shadow: 0 0 15px var(--color);
+}
+
+/* === Tooltip Box for Hover Titles === */
+#timeline-info-box {
+  position: absolute;
+  background: white;
+  color: black;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  display: none;
+  pointer-events: none; /* Allows hovering through it */
+  white-space: nowrap;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* === Spacing for Text Content (inside mini-panel) === */
+p {
+  margin-bottom: 20px;
+}
+
+h3 {
+  margin-bottom: 20px;
+}
+
+/* === Background Video Styling === */
+#background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* border: 5px solid red;  temp debug */
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -5;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* === Color Overlay That Changes Per Timeline Point === */
+#color-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.6); /* Default semi-transparent white */
+  z-index: -1; /* Behind content, but above video */
+  pointer-events: none;
+  transition: background 0.5s ease;
+}
+
+/* === Sliding Panel for Detailed Timeline Content === */
+#mini-page {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 750px;
+  height: 100%;
+  background: white;
+  padding: 10px 20px;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+  transform: translateX(100%); /* Off-screen by default */
+  transition: transform 0.4s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Enables vertical scroll for long content */
+}
+
+/* Adds color to the title when panel is active */
+#mini-page.active #mini-title {
+  color: var(--color);
+}
+
+/* Slide-in effect when panel is active */
+#mini-page.active {
+  transform: translateX(0%);
+}
+
+/* Close button styling for panel */
+.close-btn {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Content container within the panel */
+#mini-content {
+  margin-top: 10px;
+  max-height: 90vh; /* Limits height for scrollability */
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* === Sticky Header for Title in the Sliding Panel === */
+.mini-header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+#mini-title {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+/* === Custom Scrollbar Styling (WebKit Browsers) === */
+#mini-page::-webkit-scrollbar {
+  width: 0px;  /* Hidden by default */
+}
+
+/* Show scrollbar on hover */
+#mini-page:hover::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Scrollbar thumb (draggable part) */
+#mini-page::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+}
+
+/* Thumb hover effect */
+#mini-page::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+#back-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: -1; /* ⬅️ Lower z-index so it's under the mini-page */
+  margin: 0 !important;
+}
