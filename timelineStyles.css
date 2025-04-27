@@ -14,6 +14,7 @@ body {
   min-height: 100vh; /* Full screen height */
   position: relative;
   overflow: auto;
+  background: #ffffff; /* force pure white default */
   transition: background 0.4s ease-in-out; /* Smooth background color changes */
 }
 
@@ -219,6 +220,7 @@ h3 {
   display: flex;
   flex-direction: column;
   overflow-y: auto; /* Enables vertical scroll for long content */
+  z-index: 100;
 }
 
 /* Adds color to the title when panel is active */
@@ -284,10 +286,51 @@ h3 {
   background-color: #555;
 }
 
+.fade-out {
+  animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    background: #fdf5e6; /* or black, or cream, or olive green */
+  }
+}
+
 #back-button {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  z-index: -1; /* ⬅️ Lower z-index so it's under the mini-page */
+  background: #5f8133;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Playfair Display", serif;
+  font-size: 14px;
   margin: 0 !important;
+  pointer-events: auto;
+  overflow: hidden;
+  z-index: 5;
+  transition: 
+    transform 0.4s ease, 
+    background 0.6s ease,
+    color 0.4s ease,
+    border-radius 0.8s ease,
+    width 1s ease,
+    height 1s ease,
+    bottom 1s ease,
+    right 1s ease;
+}
+
+/* === Hover effect (small grow, background change) === */
+#back-button:hover {
+  transform: scale(1.15) translate(-10px, -5px); /* ✨ slightly bigger + moves left and up */
+  background: linear-gradient(
+    rgba(253, 245, 230, 0.7), 
+    rgba(253, 245, 230, 0.7)
+  ),
+  url('photos/BorinquenBackground.jpg') center/cover no-repeat;
+  color: #333;
 }
