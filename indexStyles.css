@@ -1,19 +1,24 @@
 /* ===== Global Styles ===== */
 * {
+  /* Hides the default cursor and forces use of the custom one */
   cursor: none !important;
 }
 
 body {
+  /* Applies the imported font to all body text */
   font-family: 'Playfair Display', serif;
   margin: 0;
   padding: 20px;
+
+  /* Background image styling: full screen, fixed position */
   background: url('photos/BorinquenBackground.jpg') no-repeat center center fixed;
   background-size: cover;
-  color: #333;
-  line-height: 1.6;
-  display: flex;
+
+  color: #333; /* Default text color */
+  line-height: 1.6; /* Improves readability */
+  display: flex; /* Enables vertical layout structure */
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100vh; /* Ensures body stretches to full viewport height */
   text-align: center;
 }
 
@@ -24,13 +29,18 @@ body {
   left: 0;
   width: 32px;
   height: 32px;
-  background-image: url('custom-cursor.png');
+  background-image: url('custom-cursor.png'); /* Custom image */
   background-size: contain;
   background-repeat: no-repeat;
-  pointer-events: none;
-  z-index: 10000;
-  transform: translate(-50%, -50%);
+  pointer-events: none; /* So it doesn’t interfere with clicking */
+    z-index: 99999; /* bump it above all other UI */
+  transform: translate(-50%, -50%); /* Centers image on mouse */
   transition: transform 0.2s ease;
+}
+
+/* Optional hover effect that enlarges cursor near enter-circle */
+.enter-circle:hover ~ #customCursor {
+  transform: scale(2);
 }
 
 /* ===== Headings ===== */
@@ -38,12 +48,12 @@ h1, header h1, footer {
   font-family: 'Sanchez', serif;
   font-size: 2.5rem;
   margin-bottom: 30px;
-  color: #5f8133;
+  color: #5f8133; /* Matching olive green */
 }
 
 /* ===== Header Section ===== */
 header {
-  background-color: rgba(150, 173, 120, 0.97);
+  background-color: rgba(150, 173, 120, 0.97); /* Semi-transparent green */
   color: #5f8133;
   padding: 20px;
   text-align: center;
@@ -51,7 +61,7 @@ header {
   max-width: 1200px;
   margin: 20px auto;
   border-radius: 1px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
 }
 
 /* ===== Images ===== */
@@ -75,7 +85,7 @@ nav ul {
   margin: 0;
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 15px; /* Spacing between buttons */
 }
 
 nav ul li {
@@ -96,6 +106,7 @@ nav ul li a {
   display: inline-block;
 }
 
+/* Navigation button hover effect */
 nav ul li a:hover {
   background-color: #bfe194;
   color: #5f8133;
@@ -104,12 +115,12 @@ nav ul li a:hover {
 
 /* ===== Main Content Area ===== */
 main {
-  flex-grow: 1;
+  flex-grow: 1; /* Makes sure main grows to fill available vertical space */
   padding: 20px 20px;
   max-width: 1200px;
   margin: auto;
-  background-color: rgba(150, 173, 120, 0.97);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: rgba(150, 173, 120, 0.97); /* Matching green background */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Adds depth */
 }
 
 main h2 {
