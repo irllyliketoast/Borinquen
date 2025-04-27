@@ -103,3 +103,14 @@
 .enter-circle:hover ~ #customCursor {
   transform: scale(2);
 }
+
+.fade-out {
+  animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    background: #fdf5e6; /* or black, or cream, or olive green */
+  }
+}
