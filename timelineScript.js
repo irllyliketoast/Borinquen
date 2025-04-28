@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		point3: 'videos/1898Timeline.mp4',
 		point4: 'videos/1917Timeline.mp4',
 		point5: 'videos/1930Timeline.mp4',
-		point6: 'videos/sterilization.mp4',
+		point6: 'videos/1950Timeline.mp4',
 		point7: 'videos/2000Timeline.mp4',
 		point8: 'videos/2017Timeline.mp4',
 		point9: 'videos/2020Timeline.mp4'
