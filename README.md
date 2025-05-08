@@ -70,7 +70,7 @@ The website is built using **HTML**, **CSS**, and **JavaScript**, with visual st
 | Jan – Feb 2025  | Research, proposal, animation planning                     |
 | Feb – Mar 2025  | Initial site development, timeline wireframing             |
 | Mar – Apr 2025  | Blender animations, interaction debugging, citations       |
-| Apr 21 – Apr 28 | Cross-device testing, UI polish, Overleaf finalization     |
+| Apr 21 – Apr 28 | UI polish, Overleaf finalization                           |
 | May 2025        | Capstone presentation, README, and environmental prototype |
 
 ---
