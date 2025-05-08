@@ -3,8 +3,6 @@
   <img src="https://github.com/irllyliketoast/Borinquen/blob/caf15bac62a1585343980fa8986e606da6664a13/photos/BorinquenBackground.jpg" width="1500" height ="600">
 </p>
 
-Here's a professional and detailed `README.md` file for your capstone project, **Borinquén: The Forgotten History of Puerto Rico**:
-
 ---
 
 # Borinquén: The Forgotten History of Puerto Rico
