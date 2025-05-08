@@ -65,7 +65,7 @@ The website is built using **HTML**, **CSS**, and **JavaScript**, with visual st
 
 ## Development Timeline
 
-| Phase           | Description                                                |
+| Date            | Description                                                |
 | --------------- | ---------------------------------------------------------- |
 | Jan – Feb 2025  | Research, proposal, animation planning                     |
 | Feb – Mar 2025  | Initial site development, timeline wireframing             |
