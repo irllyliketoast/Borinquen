@@ -63,18 +63,6 @@ The website is built using **HTML**, **CSS**, and **JavaScript**, with visual st
 
 ---
 
-## Development Timeline
-
-| Date            | Description                                                |
-| --------------- | ---------------------------------------------------------- |
-| Jan – Feb 2025  | Research, proposal, animation planning                     |
-| Feb – Mar 2025  | Initial site development, timeline wireframing             |
-| Mar – Apr 2025  | Blender animations, interaction debugging, citations       |
-| Apr 21 – Apr 28 | UI polish, Overleaf finalization                           |
-| May 2025        | Capstone presentation, README, and environmental prototype |
-
----
-
 ## Project Structure
 
 | File | Description |
@@ -127,6 +115,18 @@ This project does not seek to shame but to **educate**. It calls attention to th
 
 > *"La patria no es la tierra: los amigos son la patria."*
 > — José Martí
+
+---
+
+## Development Timeline
+
+| Date            | Description                                                |
+| --------------- | ---------------------------------------------------------- |
+| Jan – Feb 2025  | Research, proposal, animation planning                     |
+| Feb – Mar 2025  | Initial site development, timeline wireframing             |
+| Mar – Apr 2025  | Blender animations, interaction debugging, citations       |
+| Apr 21 – Apr 28 | UI polish, Overleaf finalization                           |
+| May 2025        | Capstone presentation, README, and environmental prototype |
 
 ---
 
