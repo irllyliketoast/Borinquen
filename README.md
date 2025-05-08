@@ -8,7 +8,7 @@
 # Borinquén: The Forgotten History of Puerto Rico
 
 **Author**: Laura Estremera
-**Date**: May 7, 2025
+
 **Capstone Project – Digital Arts**
 University of North Carolina Wilmington
 
